@@ -1,0 +1,51 @@
+public with Sharing class DataCheckExt{
+
+	 // Opportunity that is being signed
+	 public Opportunity opp; 
+	 // Standard Controller that we are extending
+	 ApexPages.StandardController stdController; 
+	 // Do we have all the data needed
+	 public boolean dataNeeded {get;set;}
+ 
+	public DataCheckExt (ApexPages.StandardController controller) { 
+	 
+	     stdController = controller;
+	     opp = (Opportunity) controller.getRecord()
+	     dataNeeded = false;
+	 } 
+	 
+	 public PageReference esignRedirect() { 
+	 
+	     PageReference newPage;
+	 
+	     if(opp.Required_Data_Entered__c){
+	 
+	        newPage = new PageReference('/apex/echosign_dev1__AgreementTemplateProcess');
+	        newPage.getParameters().put('masterid', opp.id); 
+	        newPage.getParameters().put('templateId', opp.Agreement_ID__c); 
+
+	     }
+	 
+	     else{
+
+	        newPage = null;
+	        dataNeeded = true;
+	        ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,'Error - Required Agreement Data is Missing '));
+
+	     } 
+	 
+	     return newPage; 
+
+	 } 
+
+	 
+	 // Redirect back to the Opportunity if necessary
+	 public PageReference opportunityRedirect(){
+	 
+	     PageReference newpage = stdController.view();
+	 
+	     return newpage;
+	 
+	}
+
+}

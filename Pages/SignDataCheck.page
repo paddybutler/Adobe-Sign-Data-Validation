@@ -1,0 +1,13 @@
+<apex:page StandardController="Opportunity" Extensions="DataCheckExt" Action="{!esignRedirect}" tabStyle="Opportunity">
+
+	<apex:form >
+
+		<apex:pageMessages ></apex:pageMessages>
+
+		<apex:commandButton action="{!opportunityRedirect}" value="Back to Opportunity" id="theButton" rendered="{!dataNeeded}" />
+
+		<apex:outputField value="{!Opportunity.Required_Data_Entered__c}" rendered="false"/>
+
+	</apex:form>
+
+</apex:page>
